@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ clock.super }} - Home
+{% endblock title %}
+
+{% block content %}
+<div class="row p-3">
+    <div class="col">
+        <h2 class="bd-highlight text-decoration-underline">Welcome, {{ user.first_name }}!</h2>
+    </div>
+    <div class="col">
+        <div class="col text-light p-2 ms-2 d-flex justify-content-end"><a href="/myaccount/{{ user.id }}">Edit My Account</a></div>
+    </div>
+</div>
+<div class="row p-3">
+    <div class="col">
+        <h3 class="m-3">QUOTES</h3>
+        {% for quote in quotes %}
+        <div class="mb-3 mt-3">
+            <p class="m-2 fw-bold form-control">{{ quote.author }}: "{{ quote.quote_desc }}"</p>
+            <p class="m-1 form-label ms-3">Posted by: <a href="/user_quotes/{{ quote.posted_by.id }}">{{ quote.posted_by.first_name }} {{ quote.posted_by.last_name }}</a></p>
+            <p class="ms-3"> ___ people like this<a href="/like_count" class="ms-3 btn btn-outline-danger">Like!</a></p>
+            <a href="/quote/delete/{{ quote.id }}" class="ms-3 btn btn-outline-danger">Delete</a>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="col me-3">
+        
+        <h3 class="m-3">ADD A QUOTE!</h3>
+        <form action="/quote_add" method="post">
+            {% csrf_token %}
+            <div class="mb-3 m-3">
+                <label for="author" class="form-label">Author</label>
+                <input type="text" name="author" id="author" class="form-control">
+                {% if messages %}
+                {% for message in messages %}
+                {% if message.extra_tags == 'author' %}
+                <p class="{{ message.tags }} text-sm-start fw-light text-danger">{{ message }}</p>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+            </div>
+            <div class="mb-3 m-3">
+                <label for="quote_desc" class="form-label">Author</label>
+                <textarea name="quote_desc" id="quote_desc" class="form-control"></textarea>
+                {% if messages %}
+                {% for message in messages %}
+                {% if message.extra_tags == 'quote_desc' %}
+                <p class="{{ message.tags }} text-sm-start fw-light text-danger">{{ message }}</p>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+            </div>
+            <div class="mb-3 d-flex justify-content-end">
+                <input class="btn btn-info me-3" type="submit" value="Submit">
+            </div>
+        </form>
+    </div>
+</div>
+
+
+{% endblock content %}

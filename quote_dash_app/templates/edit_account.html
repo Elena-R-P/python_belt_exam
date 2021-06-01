@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ clock.super }} - Home
+{% endblock title %}
+
+{% block content %}
+<div class="row p-3">
+    <div class="col me-3">
+        <h3 class="m-3">Edit My Account</h3>
+        <form action="/update_account/{{ user.id }}" method="post">
+            {% csrf_token %}
+            <div class="mb-3 m-3">
+                <label for="first_name" class="form-label">First Name</label>
+                <input type="text" name="first_name" placeholder="{{ user.first_name }}" class="form-control">
+                {% if messages %}
+                {% for message in messages %}
+                {% if message.extra_tags == 'first_name' %}
+                <p class="{{ message.tags }} text-sm-start fw-light text-danger">{{ message }}</p>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+            </div>
+            <div class="mb-3 m-3">
+                <label for="last_name" class="form-label">Last Name</label>
+                <input type="text" name="last_name" placeholder="{{ user.last_name }}" class="form-control">
+                {% if messages %}
+                {% for message in messages %}
+                {% if message.extra_tags == 'last_name' %}
+                <p class="{{ message.tags }} text-sm-start fw-light text-danger">{{ message }}</p>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+            </div>
+            <div class="mb-3 m-3">
+                <label for="reg_email" class="form-label">Email</label>
+                <input type="text" name="reg_email" placeholder="{{ user.email }}" class="form-control">
+                {% if messages %}
+                {% for message in messages %}
+                {% if message.extra_tags == 'reg_email' %}
+                <p class="{{ message.tags }} text-sm-start fw-light text-danger">{{ message }}</p>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+            </div>
+            <div class="mb-3 d-flex justify-content-end">
+                <input class="btn btn-info me-3" type="submit" value="Update">
+            </div>
+        </form>
+    </div>
+    <div class="col d-flex justify-content-end">
+        <a href="/quotes">Return back</a>
+    </div>
+</div>
+
+
+{% endblock content %}
